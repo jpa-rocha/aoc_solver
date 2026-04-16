@@ -17,7 +17,6 @@
     deadnix.enable = true;
     ripsecrets.enable = true;
     shellcheck.enable = true;
-    rustfmt.enable = true;
 
     nixfmt-rfc-style = {
       enable = true;
