@@ -1,11 +1,7 @@
-use std::{fs::create_dir, path::PathBuf};
+pub mod errors;
 
-#[derive(PartialEq, Debug)]
-pub enum FolderCreationError {
-    FolderAlreadyExists,
-    CouldNotCreateFolder,
-    CouldNotRead,
-}
+use errors::FolderCreationError;
+use std::{fs::create_dir, path::PathBuf};
 
 pub fn create_folder(path: PathBuf) -> Result<bool, FolderCreationError> {
     let exists = match path.try_exists() {
