@@ -3,3 +3,7 @@ path = "./solutions"
 
 [input]
 path = "./input"
+
+[logs]
+path = "./logs"
+level = "DEBUG"

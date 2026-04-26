@@ -11,6 +11,7 @@ pub static OPTIONS: OnceLock<Options> = OnceLock::new();
 pub struct Options {
     pub solutions: SolutionsOptions,
     pub input: InputOptions,
+    pub log: LogOptions,
 }
 
 #[derive(Debug, Deserialize)]
@@ -21,6 +22,12 @@ pub struct SolutionsOptions {
 #[derive(Debug, Deserialize)]
 pub struct InputOptions {
     pub path: PathBuf,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct LogOptions {
+    pub path: PathBuf,
+    pub level: String,
 }
 
 pub fn load_options() -> Result<Options, config::ConfigError> {

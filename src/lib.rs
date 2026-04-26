@@ -1,4 +1,6 @@
 pub mod errors;
+pub mod logs;
+pub mod options;
 
 use errors::FolderCreationError;
 use std::{fs::create_dir, path::PathBuf};
@@ -6,7 +8,9 @@ use std::{fs::create_dir, path::PathBuf};
 pub fn create_folder(path: PathBuf) -> Result<bool, FolderCreationError> {
     let exists = match path.try_exists() {
         Ok(x) => x,
-        Err(_) => return Err(FolderCreationError::CouldNotRead),
+        Err(_) => {
+            return Err(FolderCreationError::CouldNotRead);
+        }
     };
 
     if exists {

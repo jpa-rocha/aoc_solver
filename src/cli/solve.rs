@@ -1,4 +1,5 @@
 use crate::options::get_options;
+use aoc_solver::errors::AppErrors;
 use clap::Args;
 
 #[derive(Args, Debug)]
@@ -14,13 +15,15 @@ pub struct SolveCmd {
 }
 
 impl SolveCmd {
-    pub fn execute(&self) {
+    pub fn execute(&self) -> Result<(), AppErrors> {
         let year = self.year.to_string();
         let _ = get_options().solutions.path.clone().join(year);
 
         println!(
             "SOLVE: year {}, day {}, part {}",
             self.year, self.day, self.part
-        )
+        );
+
+        Ok(())
     }
 }
