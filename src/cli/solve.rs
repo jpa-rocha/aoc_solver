@@ -1,5 +1,5 @@
-use crate::options::get_options;
 use aoc_solver::errors::AppErrors;
+use aoc_solver::options::get_options;
 use clap::Args;
 
 #[derive(Args, Debug)]

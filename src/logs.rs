@@ -4,7 +4,7 @@ use crate::options::get_options;
 use spdlog::{prelude::*, sink::FileSink};
 
 pub fn init_logs() -> Result<(), AppErrors> {
-    let path = get_options().log.path;
+    let path = &get_options().log.path;
 
     let new_logger = match spdlog::default_logger().fork_with(|new| {
         let file_sink = FileSink::builder().path(path).build_arc()?;
@@ -12,7 +12,7 @@ pub fn init_logs() -> Result<(), AppErrors> {
         Ok(())
     }) {
         Ok(k) => k,
-        Err(_) => return Err(LoggerError::CouldNotInitializeLogger),
+        Err(e) => return Err(LoggerError::CouldNotInitializeLogger(e).into()),
     };
 
     spdlog::set_default_logger(new_logger);

@@ -1,4 +1,4 @@
-use crate::options::get_options;
+use aoc_solver::options::get_options;
 
 use aoc_solver::create_folder;
 use aoc_solver::errors::{AppErrors, FolderCreationError};

@@ -14,7 +14,10 @@ fn main() -> Result<(), AppErrors> {
     };
     OPTIONS.set(options).unwrap();
 
-    init_logs();
+    match init_logs() {
+        Ok(_) => {}
+        Err(e) => return Err(e),
+    }
 
     let args = Cli::parse();
     match args.command {
