@@ -34,4 +34,7 @@ pub enum OpenFolderError {
 pub enum LoggerError {
     #[error("Could not initialize logger: {0}")]
     CouldNotInitializeLogger(#[from] spdlog::Error),
+
+    #[error("Logger lever provided not supported")]
+    UnsupportedLoggerLevel,
 }

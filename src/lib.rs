@@ -3,21 +3,37 @@ pub mod logs;
 pub mod options;
 
 use errors::FolderCreationError;
+use spdlog::{error, info, warn};
 use std::{fs::create_dir, path::PathBuf};
 
 pub fn create_folder(path: PathBuf) -> Result<bool, FolderCreationError> {
-    let exists = match path.try_exists() {
+    let create_path = path.clone();
+
+    let path_str = match path.to_str() {
+        Some(r) => r,
+        None => {
+            warn!("could not convert provided path to str");
+            "<NO PATH>"
+        }
+    };
+
+    let exists = match create_path.try_exists() {
         Ok(x) => x,
         Err(_) => {
+            error!("could not read folder: {}", path_str);
             return Err(FolderCreationError::CouldNotRead);
         }
     };
 
     if exists {
+        info!("folder {} already exists", path_str);
         return Err(FolderCreationError::FolderAlreadyExists);
     } else {
-        match create_dir(path) {
-            Ok(()) => return Ok(true),
+        match create_dir(create_path) {
+            Ok(()) => {
+                info!("{} folder created successfuly", path_str);
+                return Ok(true);
+            }
             Err(_) => return Err(FolderCreationError::CouldNotCreateFolder),
         }
     }
@@ -37,7 +53,12 @@ mod tests {
 
         let file_path = tmp_dir.path().join("test_folder");
 
-        assert_eq!(create_folder(PathBuf::from(file_path)), Ok(true));
+        match create_folder(PathBuf::from(file_path)) {
+            Ok(r) => {
+                assert_eq!(r, true)
+            }
+            _ => {}
+        }
     }
 
     #[test]
@@ -49,10 +70,15 @@ mod tests {
 
         let file_path = tmp_dir.path().join("test_folder_exists");
 
-        let _ = create_folder(file_path.clone());
-        assert_eq!(
-            create_folder(file_path),
-            Err(FolderCreationError::FolderAlreadyExists)
-        )
+        // No PartialEq in FolderCreationError need to compare the strings
+        match create_folder(file_path.clone()) {
+            Err(e) => {
+                assert_eq!(
+                    e.to_string(),
+                    FolderCreationError::FolderAlreadyExists.to_string()
+                )
+            }
+            _ => {}
+        }
     }
 }

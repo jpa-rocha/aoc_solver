@@ -4,6 +4,7 @@ path = "./solutions"
 [input]
 path = "./input"
 
-[log]
+[logs]
+to_file = false
 path = "./logs"
 level = "DEBUG"
