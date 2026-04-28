@@ -10,7 +10,7 @@ fn main() -> Result<(), AppErrors> {
     // Initialize Options
     let options = match load_options() {
         Ok(options) => options,
-        Err(_) => panic!("could not open config file at {}", CONFIG_PATH),
+        Err(e) => panic!("could not open config file at {}: {:?}", CONFIG_PATH, e),
     };
     OPTIONS.set(options).unwrap();
 
